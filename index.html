@@ -68,9 +68,35 @@
       z-index: 1;
     }
 
+    /* Search Bar Styles */
+    #search {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 2px solid #ff4da6;
+      background-color: #121212;
+      color: #eee;
+      outline-offset: 2px;
+      transition: border-color 0.3s;
+    }
+
+    #search::placeholder {
+      color: #888;
+    }
+
+    #search:focus {
+      border-color: #ff79b0;
+      background-color: #1c1c1c;
+    }
+
+    /* Updated grid to fix card resizing on search */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, 320px);
+      justify-content: start;
       gap: 2rem;
     }
 
@@ -82,11 +108,10 @@
       box-shadow: 0 0 16px rgba(255, 77, 166, 0.15);
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease, box-shadow 0.3s;
+      transition: box-shadow 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-6px);
       box-shadow: 0 0 24px rgba(255, 77, 166, 0.3);
     }
 
@@ -171,6 +196,13 @@
   </div>
 
   <div class="main">
+    <input
+      type="search"
+      id="search"
+      placeholder="Search games..."
+      aria-label="Search games"
+      autocomplete="off"
+    />
     <div class="grid">
 
       <!-- 🔥 Lethal Company -->
@@ -190,7 +222,7 @@
       <!-- Placeholder Game 1 -->
       <div class="card">
         <h2>Placeholder Game 1</h2>
-        <img src="https://via.placeholder.com/640x360.png?text=Game+1+Cover" alt="Placeholder Game 1 Cover">
+        <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTiyWsUSCFgbUyEZ4wkGIeysCAmwjdRsUIgleUVWGRHFCSBBQZ7uB3AWs4_Yx6kb_kBePsrt90Ho4PnxW0gpzNN4uJJsyVi2hLAGGHA6A">
         <p>ddd</p>
         <div class="metadata">
           <span>File Size: ~1.5 GB</span>
@@ -217,6 +249,7 @@
   </div>
 
   <script>
+    // Petal animation script
     const NUM_PETALS = 25;
     for (let i = 0; i < NUM_PETALS; i++) {
       const petal = document.createElement('div');
@@ -226,6 +259,23 @@
       petal.style.animationDelay = `${Math.random() * 5}s`;
       document.body.appendChild(petal);
     }
+
+    // Search filter script
+    const searchInput = document.getElementById('search');
+    const cards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+
+      cards.forEach(card => {
+        const title = card.querySelector('h2').textContent.toLowerCase();
+        if (title.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
   </script>
 </body>
 </html>
